@@ -1,4 +1,4 @@
-package com.paulds.simpleftp.helpers;
+package com.paulds.simpleftp.data.helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,12 +1,12 @@
-package com.paulds.simpleftp.repository;
+package com.paulds.simpleftp.data.repository;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.paulds.simpleftp.entities.FtpServer;
-import com.paulds.simpleftp.helpers.DatabaseHelper;
+import com.paulds.simpleftp.data.entities.FtpServer;
+import com.paulds.simpleftp.data.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.paulds.simpleftp.entities;
+package com.paulds.simpleftp.data.entities;
 
 /**
  * Represent a database object.

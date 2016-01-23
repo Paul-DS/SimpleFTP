@@ -1,10 +1,8 @@
-package com.paulds.simpleftp.repository;
+package com.paulds.simpleftp.data.repository;
 
 import android.os.Environment;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class provide an access to local files.

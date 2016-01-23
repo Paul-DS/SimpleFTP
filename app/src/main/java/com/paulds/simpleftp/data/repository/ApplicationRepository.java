@@ -1,4 +1,4 @@
-package com.paulds.simpleftp.repository;
+package com.paulds.simpleftp.data.repository;
 
 import android.content.Context;
 

@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.paulds.simpleftp.R;
-import com.paulds.simpleftp.entities.FtpServer;
+import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
 
 import java.util.List;

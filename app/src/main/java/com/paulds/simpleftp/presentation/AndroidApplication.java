@@ -2,7 +2,7 @@ package com.paulds.simpleftp.presentation;
 
 import android.app.Application;
 
-import com.paulds.simpleftp.repository.ApplicationRepository;
+import com.paulds.simpleftp.data.repository.ApplicationRepository;
 
 /**
  * Created by Paul on 13/01/2016.
@@ -23,7 +23,7 @@ public class AndroidApplication extends Application {
 
     /**
      * Gets the application repository.
-     * @return
+     * @return The application repository.
      */
     public static ApplicationRepository getRepository() {
         return repository;

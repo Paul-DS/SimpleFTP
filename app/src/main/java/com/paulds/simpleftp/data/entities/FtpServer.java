@@ -1,4 +1,4 @@
-package com.paulds.simpleftp.entities;
+package com.paulds.simpleftp.data.entities;
 
 /**
  * Represent a FTP server object, stored in database.
