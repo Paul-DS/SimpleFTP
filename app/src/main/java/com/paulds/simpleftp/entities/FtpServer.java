@@ -40,7 +40,7 @@ public class FtpServer extends DatabaseEntity {
     }
 
     /**
-     * Gets the FTP server host name.
+     * Sets the FTP server host name.
      * @param host The FTP server host name.
      */
     public void setHost(String host) {

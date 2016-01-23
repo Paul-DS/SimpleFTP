@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SimpleFTP</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="dialog_create_folder_title">Create folder</string>
+    <string name="dialog_create_folder_positive_button">Create</string>
+    <string name="dialog_create_folder_negative_button">Cancel</string>
 </resources>
