@@ -7,6 +7,11 @@ package com.paulds.simpleftp.data.entities;
  */
 public class FtpServer extends DatabaseEntity {
     /**
+     * The named used to display the FTP server.
+     */
+    private String name;
+
+    /**
      * The FTP server host name.
      */
     private String host;
@@ -30,6 +35,22 @@ public class FtpServer extends DatabaseEntity {
      * The port used for FTP connection.
      */
     private int port;
+
+    /**
+     * Gets the name used to display the FTP server.
+     * @return The server name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name used to display the FTP server.
+     * @param name The server name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * Gets the FTP server host name.

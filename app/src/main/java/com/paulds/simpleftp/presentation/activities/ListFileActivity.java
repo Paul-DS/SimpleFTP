@@ -2,6 +2,7 @@ package com.paulds.simpleftp.presentation.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +38,11 @@ public class ListFileActivity extends AppCompatActivity {
     String currentPath;
 
     /**
+     * The button to access the server list.
+     */
+    ImageButton ibServers;
+
+    /**
      * The list view which contains the files.
      */
     ListView lvFiles;
@@ -58,12 +65,21 @@ public class ListFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_file);
+        ibServers = (ImageButton) findViewById(R.id.ibServers);
         lvFiles = (ListView) findViewById(R.id.lvFiles);
         fabPlus = (FloatingActionButton) findViewById(R.id.fabPlus);
 
         filesAdapter = new FileListAdapter(ListFileActivity.this, new ArrayList<FileViewModel>());
         this.updateList("/");
         lvFiles.setAdapter(filesAdapter);
+
+        ibServers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListFileActivity.this, ListServerActivity.class);
+                ListFileActivity.this.startActivity(intent);
+            }
+        });
 
         lvFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
