@@ -40,8 +40,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@id/view"
-        android:layout_above="@+id/fabPlus" />
+        android:layout_alignTop="@id/view" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPlus"

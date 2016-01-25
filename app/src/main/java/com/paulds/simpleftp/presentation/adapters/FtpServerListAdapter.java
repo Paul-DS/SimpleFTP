@@ -41,13 +41,13 @@ public class FtpServerListAdapter extends ArrayAdapter<FtpServerViewModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_file, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_ftp_server, parent, false);
         }
 
         FtpServerViewHolder viewHolder = (FtpServerViewHolder) convertView.getTag();
         if(viewHolder == null){
             viewHolder = new FtpServerViewHolder();
-            viewHolder.name = (TextView) convertView.findViewById(R.id.servername);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.ServerList_tvName);
             convertView.setTag(viewHolder);
         }
 

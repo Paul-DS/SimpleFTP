@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/servername"
+        android:id="@+id/ServerList_tvName"
         android:textStyle="bold" />
 </LinearLayout>

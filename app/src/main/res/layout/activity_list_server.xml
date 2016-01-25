@@ -37,10 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@id/view"
-        android:layout_above="@+id/fabPlus" />
+        android:layout_above="@+id/fabAddServer" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabPlus"
+        android:id="@+id/fabAddServer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

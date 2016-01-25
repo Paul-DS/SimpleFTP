@@ -1,9 +1,11 @@
 package com.paulds.simpleftp.data.repository;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.data.helpers.DatabaseHelper;
@@ -33,6 +35,7 @@ public class ServerRepository {
      */
     private String[] allColumns = {
         DatabaseHelper.COLUMN_ID,
+        DatabaseHelper.COLUMN_NAME,
         DatabaseHelper.COLUMN_HOST,
         DatabaseHelper.COLUMN_ANONYMOUS,
         DatabaseHelper.COLUMN_LOGIN,
@@ -88,6 +91,25 @@ public class ServerRepository {
     }
 
     /**
+     * Add a new FTP server.
+     * @param server The server to add.
+     */
+    public void addServer(FtpServer server) {
+        this.open();
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseHelper.COLUMN_NAME, server.getName());
+        values.put(DatabaseHelper.COLUMN_HOST, server.getHost());
+        values.put(DatabaseHelper.COLUMN_PORT, server.getPort());
+        values.put(DatabaseHelper.COLUMN_ANONYMOUS, server.isAnonymous());
+        values.put(DatabaseHelper.COLUMN_LOGIN, server.getLogin());
+        values.put(DatabaseHelper.COLUMN_PASSWORD, server.getPassword());
+
+        database.insert(DatabaseHelper.TABLE_SERVER, null, values);
+        this.close();
+    }
+
+    /**
      * Convert a cursor from server table to a FtpServer object.
      * @param cursor The cursor from server table.
      * @return The converted FtpServer object.
@@ -95,11 +117,12 @@ public class ServerRepository {
     private FtpServer cursorToServer(Cursor cursor) {
         FtpServer server = new FtpServer();
         server.setId(cursor.getInt(0));
-        server.setHost(cursor.getString(1));
-        server.setIsAnonymous(cursor.getInt(2) > 0);
-        server.setLogin(cursor.getString(3));
-        server.setPassword(cursor.getString(4));
-        server.setPort(cursor.getInt(5));
+        server.setName(cursor.getString(1));
+        server.setHost(cursor.getString(2));
+        server.setIsAnonymous(cursor.getInt(3) > 0);
+        server.setLogin(cursor.getString(4));
+        server.setPassword(cursor.getString(5));
+        server.setPort(cursor.getInt(6));
         return server;
     }
 }
