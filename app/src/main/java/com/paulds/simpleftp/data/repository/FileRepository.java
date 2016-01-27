@@ -2,7 +2,11 @@ package com.paulds.simpleftp.data.repository;
 
 import android.os.Environment;
 
+import com.paulds.simpleftp.data.entities.FileEntity;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provide an access to local files.
@@ -16,12 +20,22 @@ public class FileRepository {
      * @param path The specified path.
      * @return The list of files.
      */
-    public File[] listFiles(String path) {
+    public List<FileEntity> listFiles(String path) {
         String fullPath = path;
 
         File folder = new File(fullPath);
 
-        return folder.listFiles();
+        File[] files = folder.listFiles();
+
+        List<FileEntity> results = new ArrayList<FileEntity>();
+
+        if(files != null) {
+            for (File file : files) {
+                results.add(this.fileToEntity(file));
+            }
+        }
+
+        return results;
     }
 
 
@@ -50,5 +64,20 @@ public class FileRepository {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Convert a file to a file entity.
+     * @param file The fil to convert.
+     * @return The converted file entity.
+     */
+    private FileEntity fileToEntity(File file)
+    {
+        FileEntity entity = new FileEntity();
+        entity.setPath(file.getPath());
+        entity.setName(file.getName());
+        entity.setSize(file.length());
+        entity.setIsDirectory(file.isDirectory());
+        return entity;
     }
 }

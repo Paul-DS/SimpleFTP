@@ -25,6 +25,11 @@ public class ApplicationRepository {
     private FileRepository fileRepository;
 
     /**
+     * The FTP repository.
+     */
+    private FtpRepository ftpRepository;
+
+    /**
      * Initialize a new instance of ApplicationRepository
      * @param context The context used for repositories initialization.
      */
@@ -54,5 +59,17 @@ public class ApplicationRepository {
         }
 
         return this.fileRepository;
+    }
+
+    /**
+     * Gets the FTP repository.
+     * @return The FTP repository.
+     */
+    public FtpRepository getFtpRepository() {
+        if(this.ftpRepository == null) {
+            this.ftpRepository = new FtpRepository();
+        }
+
+        return this.ftpRepository;
     }
 }

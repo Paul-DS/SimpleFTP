@@ -3,6 +3,7 @@ package com.paulds.simpleftp.presentation.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,14 +14,26 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.paulds.simpleftp.R;
+import com.paulds.simpleftp.data.entities.FileEntity;
+import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
 import com.paulds.simpleftp.presentation.adapters.FileListAdapter;
 import com.paulds.simpleftp.presentation.model.FileViewModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+import it.sauronsoftware.ftp4j.FTPListParseException;
 
 /**
  * Activity which displays a list of files.
@@ -121,16 +134,15 @@ public class ListFileActivity extends AppCompatActivity {
      * Update the list view with a new path.
      * @param path The new path.
      */
-    private void updateList(String path)
-    {
+    private void updateList(String path) {
         this.currentPath = path;
         filesAdapter.clear();
 
-        File[] files = AndroidApplication.getRepository().getFileRepository().listFiles(path);
+        List<FileEntity> files = AndroidApplication.getRepository().getFileRepository().listFiles(path);
 
         List<FileViewModel> viewModels = new ArrayList<FileViewModel>();
 
-        if(path != "/") {
+        if (path != "/") {
             FileViewModel viewModel = new FileViewModel();
             viewModel.setFilename("...");
             viewModel.setFilepath(path.substring(0, path.lastIndexOf("/") + 1));
@@ -138,14 +150,14 @@ public class ListFileActivity extends AppCompatActivity {
             viewModels.add(viewModel);
         }
 
-        if(files != null) {
-            for (File f : files) {
+        if (files != null) {
+            for (FileEntity f : files) {
                 FileViewModel viewModel = new FileViewModel();
                 viewModel.setFilename(f.getName());
                 viewModel.setFilepath(f.getPath());
 
-                if(!f.isDirectory()) {
-                    viewModel.setSize(f.length());
+                if (!f.isDirectory()) {
+                    viewModel.setSize(f.getSize());
                 }
 
                 viewModels.add(viewModel);
