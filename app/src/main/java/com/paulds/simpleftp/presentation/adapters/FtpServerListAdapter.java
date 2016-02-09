@@ -12,9 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.paulds.simpleftp.R;
-import com.paulds.simpleftp.presentation.model.FileViewModel;
 import com.paulds.simpleftp.presentation.model.FtpServerViewModel;
-import com.paulds.simpleftp.presentation.viewholders.FileViewHolder;
 import com.paulds.simpleftp.presentation.viewholders.FtpServerViewHolder;
 
 import java.util.List;
