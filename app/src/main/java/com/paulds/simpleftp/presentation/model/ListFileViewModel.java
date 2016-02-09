@@ -1,11 +1,14 @@
 package com.paulds.simpleftp.presentation.model;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.paulds.simpleftp.BR;
@@ -103,7 +106,31 @@ public class ListFileViewModel extends BaseObservable {
      * @param view The current view.
      */
     public void addFolder(View view) {
-        Toast.makeText(this.context, "Add folder", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+
+        builder.setTitle(R.string.dialog_create_folder_title);
+
+        final EditText input = new EditText(this.context);
+        final String currentPath = this.path;
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AndroidApplication.getRepository().getFileRepository().createFolder(currentPath, input.getText().toString());
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**
