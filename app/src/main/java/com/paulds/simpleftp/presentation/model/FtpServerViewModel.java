@@ -1,11 +1,18 @@
 package com.paulds.simpleftp.presentation.model;
 
+import android.view.View;
+
 /**
  * Model for displaying a FTP server in a view.
  *
  * @author Paul-DS
  */
 public class FtpServerViewModel {
+    /**
+     * The main view model
+     */
+    private ListServerViewModel mainViewModel;
+
     /**
      * The named used to display the FTP server.
      */
@@ -35,6 +42,14 @@ public class FtpServerViewModel {
      * The port used for FTP connection.
      */
     private int port;
+
+    /**
+     * Default constructor.
+     * @param mainViewModel The parent view model.
+     */
+    public FtpServerViewModel(ListServerViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
+    }
 
     /**
      * Gets the name used to display the FTP server.
@@ -130,5 +145,13 @@ public class FtpServerViewModel {
      */
     public void setPort(int port) {
         this.port = port;
+    }
+
+    /**
+     * Called when the file item is clicked.
+     * @param view The current view.
+     */
+    public void onItemClick(View view) {
+        this.mainViewModel.consultServer(this);
     }
 }

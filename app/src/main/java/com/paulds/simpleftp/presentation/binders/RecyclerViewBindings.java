@@ -9,6 +9,8 @@ import java.util.Collection;
 
 /**
  * Class used to defined bindings used for recycler views.
+ *
+ * @author Paul-DS
  */
 public class RecyclerViewBindings {
     /**

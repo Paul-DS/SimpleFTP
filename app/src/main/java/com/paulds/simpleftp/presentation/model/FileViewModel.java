@@ -84,6 +84,10 @@ public class FileViewModel {
         this.size = size;
     }
 
+    /**
+     * Called when the file item is clicked.
+     * @param view The current view.
+     */
     public void onItemClick(View view) {
         this.mainViewModel.selectFile(this);
     }
