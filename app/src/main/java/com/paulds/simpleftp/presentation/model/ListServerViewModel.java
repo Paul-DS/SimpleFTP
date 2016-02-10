@@ -40,9 +40,15 @@ public class ListServerViewModel extends BaseObservable {
     @Bindable
     public ObservableArrayList<FtpServerViewModel> servers;
 
+    /**
+     * The selected server.
+     */
     @Bindable
     public ObservableField<FtpServerViewModel> selectedServer;
 
+    /**
+     * Value indicating whether the selected server is visible.
+     */
     public ObservableBoolean selectedServerVisible;
 
     /**
