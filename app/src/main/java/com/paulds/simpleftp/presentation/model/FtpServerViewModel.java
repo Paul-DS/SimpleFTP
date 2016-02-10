@@ -116,6 +116,14 @@ public class FtpServerViewModel {
     }
 
     /**
+     * Gets the login to displayed.
+     * @return The login to displayed.
+     */
+    public String getDisplayLogin() {
+        return this.isAnonymous ? "Anonymous" : this.login;
+    }
+
+    /**
      * Gets the password used for FTP connection.
      * @return The password used for FTP connection.
      */

@@ -141,8 +141,8 @@
                         android:id="@+id/ConsultServer_tvHost"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Test"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@{model.selectedServer.host}" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -177,8 +177,8 @@
                         android:id="@+id/ConsultServer_tvPort"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Test"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@{String.valueOf(model.selectedServer.port)}" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -213,8 +213,8 @@
                         android:id="@+id/ConsultServer_tvLogin"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Test"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@{model.selectedServer.displayLogin}"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

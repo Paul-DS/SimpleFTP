@@ -43,7 +43,6 @@ public class ListServerViewModel extends BaseObservable {
     /**
      * The selected server.
      */
-    @Bindable
     public ObservableField<FtpServerViewModel> selectedServer;
 
     /**
@@ -106,7 +105,6 @@ public class ListServerViewModel extends BaseObservable {
      * @param view The current view.
      */
     public void closeServer(View view) {
-        selectedServer.set(null);
         selectedServerVisible.set(false);
     }
 
