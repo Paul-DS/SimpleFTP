@@ -110,6 +110,16 @@ public class ServerRepository {
     }
 
     /**
+     * Delete a FTP server.
+     * @param serverId The identifier of the server to delete.
+     */
+    public void deleteServer(int serverId) {
+        this.open();
+        database.delete(DatabaseHelper.TABLE_SERVER, DatabaseHelper.COLUMN_ID + "=" + serverId, null);
+        this.close();
+    }
+
+    /**
      * Convert a cursor from server table to a FtpServer object.
      * @param cursor The cursor from server table.
      * @return The converted FtpServer object.

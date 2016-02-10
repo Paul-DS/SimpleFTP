@@ -14,6 +14,11 @@ public class FtpServerViewModel {
     private ListServerViewModel mainViewModel;
 
     /**
+     * The identifier of the FTP server.
+     */
+    private int id;
+
+    /**
      * The named used to display the FTP server.
      */
     private String name;
@@ -49,6 +54,22 @@ public class FtpServerViewModel {
      */
     public FtpServerViewModel(ListServerViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
+    }
+
+    /**
+     * Gets the identifier of the FTP server.
+     * @return The server identifier.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the identifier of the FTP server.
+     * @param id The server identifier.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.paulds.simpleftp.presentation.model;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -8,7 +9,9 @@ import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.paulds.simpleftp.BR;
@@ -81,6 +84,7 @@ public class ListServerViewModel extends BaseObservable {
         if(servers != null) {
             for (FtpServer server : serverEntities) {
                 FtpServerViewModel viewModel = new FtpServerViewModel(this);
+                viewModel.setId(server.getId());
                 viewModel.setName(server.getName());
                 viewModel.setHost(server.getHost());
                 viewModel.setPort(server.getPort());
@@ -106,6 +110,37 @@ public class ListServerViewModel extends BaseObservable {
      */
     public void closeServer(View view) {
         selectedServerVisible.set(false);
+    }
+
+    /**
+     * Delete the selected server.
+     * @param view The current view.
+     */
+    public void deleteServer(View view) {
+        if(selectedServer.get() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+
+            builder.setMessage(R.string.dialog_delete_server_message);
+
+            builder.setPositiveButton(R.string.dialog_delete_server_positive_button, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AndroidApplication.getRepository().getServerRepository().deleteServer(selectedServer.get().getId());
+                    selectedServerVisible.set(false);
+                    updateList();
+                }
+            });
+
+            builder.setNegativeButton(R.string.dialog_delete_server_negative_button, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
     /**

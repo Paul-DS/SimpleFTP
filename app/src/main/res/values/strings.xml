@@ -4,4 +4,7 @@
     <string name="dialog_create_folder_title">Create folder</string>
     <string name="dialog_create_folder_positive_button">Create</string>
     <string name="dialog_create_folder_negative_button">Cancel</string>
+    <string name="dialog_delete_server_message">The server will be deleted.</string>
+    <string name="dialog_delete_server_positive_button">Delete</string>
+    <string name="dialog_delete_server_negative_button">Cancel</string>
 </resources>
