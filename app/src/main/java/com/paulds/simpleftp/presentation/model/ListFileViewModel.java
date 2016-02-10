@@ -66,9 +66,10 @@ public class ListFileViewModel extends BaseObservable {
      * @param path The new path.
      */
     public void changeDirectory(String path) {
-        List<FileEntity> newFiles = AndroidApplication.getRepository().getFileRepository().listFiles(path);
-
         files.clear();
+        this.path = path;
+
+        List<FileEntity> newFiles = AndroidApplication.getRepository().getFileRepository().listFiles(path);
 
         if (!path.equals("/")) {
             FileViewModel viewModel = new FileViewModel(this);
@@ -108,21 +109,21 @@ public class ListFileViewModel extends BaseObservable {
     public void addFolder(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
-        builder.setTitle(R.string.dialog_create_folder_title);
+        builder.setMessage(R.string.dialog_create_folder_message);
 
         final EditText input = new EditText(this.context);
-        final String currentPath = this.path;
 
         builder.setView(input);
 
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.dialog_create_folder_positive_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AndroidApplication.getRepository().getFileRepository().createFolder(currentPath, input.getText().toString());
+                AndroidApplication.getRepository().getFileRepository().createFolder(path, input.getText().toString());
+                changeDirectory(path);
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.dialog_create_folder_negative_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
