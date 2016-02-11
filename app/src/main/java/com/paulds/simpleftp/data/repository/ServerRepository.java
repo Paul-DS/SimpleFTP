@@ -91,6 +91,30 @@ public class ServerRepository {
     }
 
     /**
+     * Gets a server stored in database.
+     * @param id The identifier of the server to recover.
+     * @return The server corresponding to the specified id.
+     */
+    public FtpServer getServer(int id) {
+        this.open();
+
+        FtpServer result = null;
+
+        Cursor cursor = database.query(DatabaseHelper.TABLE_SERVER,
+                allColumns, DatabaseHelper.COLUMN_ID + "=" + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        if (!cursor.isAfterLast()) {
+            result = this.cursorToServer(cursor);
+        }
+
+        cursor.close();
+        this.close();
+
+        return result;
+    }
+
+    /**
      * Add a new FTP server.
      * @param server The server to add.
      */
@@ -106,6 +130,25 @@ public class ServerRepository {
         values.put(DatabaseHelper.COLUMN_PASSWORD, server.getPassword());
 
         database.insert(DatabaseHelper.TABLE_SERVER, null, values);
+        this.close();
+    }
+
+    /**
+     * Update a FTP server.
+     * @param server The server to update.
+     */
+    public void updateServer(FtpServer server) {
+        this.open();
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseHelper.COLUMN_NAME, server.getName());
+        values.put(DatabaseHelper.COLUMN_HOST, server.getHost());
+        values.put(DatabaseHelper.COLUMN_PORT, server.getPort());
+        values.put(DatabaseHelper.COLUMN_ANONYMOUS, server.isAnonymous());
+        values.put(DatabaseHelper.COLUMN_LOGIN, server.getLogin());
+        values.put(DatabaseHelper.COLUMN_PASSWORD, server.getPassword());
+
+        database.update(DatabaseHelper.TABLE_SERVER, values, DatabaseHelper.COLUMN_ID + "=" + server.getId(), null);
         this.close();
     }
 

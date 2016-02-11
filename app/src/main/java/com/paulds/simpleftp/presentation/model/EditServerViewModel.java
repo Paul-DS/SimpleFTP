@@ -21,11 +21,16 @@ import com.paulds.simpleftp.presentation.activities.ListServerActivity;
  *
  * @author Paul-DS
  */
-public class AddServerViewModel extends FormViewModel {
+public class EditServerViewModel extends FormViewModel {
     /**
      * The activity context.
      */
     private Activity context;
+
+    /**
+     * The server id.
+     */
+    public int id;
 
     /**
      * The server name.
@@ -58,10 +63,10 @@ public class AddServerViewModel extends FormViewModel {
     public FieldViewModel<String> password;
 
     /**
-     * Default constructor.
+     * Default constructor (for creation).
      * @param context The context of the current activity.
      */
-    public AddServerViewModel(Activity context) {
+    public EditServerViewModel(Activity context) {
         this.context = context;
         this.name = new FieldViewModel<String>(){
             @Override
@@ -93,7 +98,7 @@ public class AddServerViewModel extends FormViewModel {
         this.login = new FieldViewModel<String>(){
             @Override
             public void onValidate() {
-                this.setError((isAnonymous.get() != null && isAnonymous.get().booleanValue())  && (this.get() == null || this.get().isEmpty())
+                this.setError((isAnonymous.get() == null || !isAnonymous.get().booleanValue())  && (this.get() == null || this.get().isEmpty())
                         ? "Please fill the login for FTP connection."
                         : null);
             }
@@ -102,11 +107,29 @@ public class AddServerViewModel extends FormViewModel {
         this.password = new FieldViewModel<String>(){
             @Override
             public void onValidate() {
-                this.setError((isAnonymous.get() != null && isAnonymous.get().booleanValue()) && (this.get() == null || this.get().isEmpty())
+                this.setError((isAnonymous.get() == null || !isAnonymous.get().booleanValue()) && (this.get() == null || this.get().isEmpty())
                         ? "Please fill the password for FTP connection."
                         : null);
             }
         };
+    }
+
+    /**
+     * Constructor for edition.
+     * @param context The context of the current activity.
+     * @param serverId The identifier of the server to edit.
+     */
+    public EditServerViewModel(Activity context, int serverId) {
+        this(context);
+
+        FtpServer server = AndroidApplication.getRepository().getServerRepository().getServer(serverId);
+        this.id = serverId;
+        this.name.set(server.getName());
+        this.host.set(server.getHost());
+        this.port.set(String.valueOf(server.getPort()));
+        this.isAnonymous.set(server.isAnonymous());
+        this.login.set(server.getLogin());
+        this.password.set(server.getPassword());
     }
 
     /**
@@ -118,6 +141,7 @@ public class AddServerViewModel extends FormViewModel {
         {
             FtpServer server = new FtpServer();
 
+            server.setId(this.id);
             server.setName(this.name.get());
             server.setHost(this.host.get());
             server.setPort(TextUtils.isDigitsOnly(this.port.get()) ? Integer.parseInt(this.port.get()) : 21);
@@ -125,8 +149,14 @@ public class AddServerViewModel extends FormViewModel {
             server.setLogin(this.login.get());
             server.setPassword(this.password.get());
 
-            AndroidApplication.getRepository().getServerRepository().addServer(server);
+            if(this.id > 0) {
+                AndroidApplication.getRepository().getServerRepository().updateServer(server);
+            }
+            else {
+                AndroidApplication.getRepository().getServerRepository().addServer(server);
+            }
 
+            this.context.setResult(Activity.RESULT_OK);
             this.context.finish();
         }
     }

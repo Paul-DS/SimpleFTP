@@ -1,5 +1,7 @@
 package com.paulds.simpleftp.presentation.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import com.paulds.simpleftp.presentation.model.ListServerViewModel;
  * @author Paul-DS
  */
 public class ListServerActivity extends AppCompatActivity {
+
+    public static final int KEY_EDIT_SERVER = 199;
 
     /**
      * The activity binding.
@@ -49,6 +53,15 @@ public class ListServerActivity extends AppCompatActivity {
         super.onResume();
 
         this.viewModel.updateList();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == KEY_EDIT_SERVER) {
+            if(resultCode == Activity.RESULT_OK){
+                this.viewModel.selectedServerVisible.set(false);
+            }
+        }
     }
 
     /**

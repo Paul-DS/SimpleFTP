@@ -1,29 +1,26 @@
 package com.paulds.simpleftp.presentation.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.paulds.simpleftp.BR;
 import com.paulds.simpleftp.R;
-import com.paulds.simpleftp.data.entities.FileEntity;
 import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
-import com.paulds.simpleftp.presentation.activities.AddServerActivity;
+import com.paulds.simpleftp.presentation.activities.EditServerActivity;
 import com.paulds.simpleftp.presentation.activities.ListServerActivity;
 import com.paulds.simpleftp.presentation.binders.ItemBinder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +32,7 @@ public class ListServerViewModel extends BaseObservable {
     /**
      * The activity context.
      */
-    private Context context;
+    private Activity context;
 
     /**
      * The list of servers displayed.
@@ -57,7 +54,7 @@ public class ListServerViewModel extends BaseObservable {
      * Default constructor.
      * @param context The context of the current activity.
      */
-    public ListServerViewModel(Context context) {
+    public ListServerViewModel(Activity context) {
         this.context = context;
         this.servers = new ObservableArrayList<FtpServerViewModel>();
         this.selectedServer = new ObservableField<FtpServerViewModel>();
@@ -144,11 +141,27 @@ public class ListServerViewModel extends BaseObservable {
     }
 
     /**
+     * Edit a FTP server.
+     * @param view The current view.
+     */
+    public void editServer(View view) {
+        if(selectedServer.get() != null) {
+            Intent intent = new Intent(context, EditServerActivity.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("serverId", selectedServer.get().getId());
+            intent.putExtras(bundle);
+
+            context.startActivityForResult(intent, ListServerActivity.KEY_EDIT_SERVER);
+        }
+    }
+
+    /**
      * Add a new FTP server.
      * @param view The current view.
      */
     public void addServer(View view) {
-        Intent intent = new Intent(context, AddServerActivity.class);
+        Intent intent = new Intent(context, EditServerActivity.class);
         context.startActivity(intent);
     }
 }
