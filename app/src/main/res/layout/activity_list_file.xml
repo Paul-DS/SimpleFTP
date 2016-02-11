@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svg="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="model" type="com.paulds.simpleftp.presentation.model.ListFileViewModel" />
     </data>
@@ -42,12 +44,17 @@
                     android:layout_gravity="left"
                     android:id="@+id/toolbar_title" />
 
-                <ImageButton
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_preferences"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_settings_24dp"
                     android:id="@+id/ibServers"
-                    android:onClick="@{model.openParameters}"/>
+                    android:onClick="@{model.openParameters}"
+                    android:padding="15dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
 
             </android.support.v7.widget.Toolbar>
 
@@ -65,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"
+            android:src="@drawable/ic_add_24dp"
+
             android:onClick="@{model.addFolder}"/>
 
     </android.support.design.widget.CoordinatorLayout>

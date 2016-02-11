@@ -98,14 +98,16 @@
                     android:layout_gravity="left"
                     android:id="@+id/toolbar_title" />
 
-                <ImageButton
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:src="@android:drawable/ic_menu_preferences"
+                    android:src="@drawable/ic_check_24dp"
                     android:id="@+id/AddServer_ibCreate"
                     android:adjustViewBounds="false"
-                    android:onClick="@{model.createServer}"/>
+                    android:onClick="@{model.createServer}"
+                    android:padding="15dp"
+                    android:clickable="true" />
 
             </android.support.v7.widget.Toolbar>
 

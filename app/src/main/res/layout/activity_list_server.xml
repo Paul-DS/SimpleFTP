@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:src="@android:drawable/ic_dialog_email"
+                android:src="@drawable/ic_add_24dp"
                 android:onClick="@{model.addServer}" />
 
         </android.support.design.widget.CoordinatorLayout>
@@ -110,23 +110,26 @@
                         android:textSize="@dimen/abc_text_size_medium_material"
                         android:textStyle="bold" />
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:src="@android:drawable/ic_menu_edit"
+                        android:src="@drawable/ic_create_24dp"
                         android:id="@+id/ConsultServer_ibEdit"
                         android:adjustViewBounds="false"
-                        android:onClick="@{model.editServer}"/>
+                        android:onClick="@{model.editServer}"
+                        android:padding="12dp" />
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:src="@android:drawable/ic_menu_delete"
+                        android:src="@drawable/ic_delete_24dp"
                         android:id="@+id/ConsultServer_ibDelete"
                         android:adjustViewBounds="false"
-                        android:onClick="@{model.deleteServer}"/>
+                        android:onClick="@{model.deleteServer}"
+                        android:padding="12dp"
+                        android:paddingEnd="10dp" />
 
                 </android.support.v7.widget.Toolbar>
 
