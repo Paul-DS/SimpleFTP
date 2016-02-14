@@ -11,7 +11,7 @@ public class FileViewModel {
     /**
      * The main view model
      */
-    private ListFileViewModel mainViewModel;
+    private ExplorerViewModel mainViewModel;
 
     /**
      * The file name.
@@ -32,7 +32,7 @@ public class FileViewModel {
      * Default constructor.
      * @param mainViewModel The parent view model.
      */
-    public FileViewModel(ListFileViewModel mainViewModel) {
+    public FileViewModel(ExplorerViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
     }
 

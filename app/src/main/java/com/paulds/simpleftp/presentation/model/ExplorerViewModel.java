@@ -3,13 +3,13 @@ package com.paulds.simpleftp.presentation.model;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Observable;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.paulds.simpleftp.BR;
 import com.paulds.simpleftp.R;
@@ -21,11 +21,11 @@ import com.paulds.simpleftp.presentation.binders.ItemBinder;
 import java.util.List;
 
 /**
- * Model for displaying a list of files.
+ * Model for displaying an explorer.
  *
  * @author Paul-DS
  */
-public class ListFileViewModel extends BaseObservable {
+public class ExplorerViewModel extends BaseObservable {
     /**
      * The activity context.
      */
@@ -46,7 +46,7 @@ public class ListFileViewModel extends BaseObservable {
      * Default constructor.
      * @param context The context of the current activity.
      */
-    public ListFileViewModel(Context context) {
+    public ExplorerViewModel(Context context) {
         this.context = context;
         this.files = new ObservableArrayList<FileViewModel>();
         this.changeDirectory("/");
@@ -59,6 +59,11 @@ public class ListFileViewModel extends BaseObservable {
     public ItemBinder<FileViewModel> itemViewBinder()
     {
         return new ItemBinder<FileViewModel>(BR.file, R.layout.row_file);
+    }
+
+    @Bindable
+    public String getTitle() {
+        return "Local";
     }
 
     /**
@@ -132,14 +137,5 @@ public class ListFileViewModel extends BaseObservable {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    /**
-     * Open the server list activity.
-     * @param view The current view
-     */
-    public void openParameters(View view) {
-        Intent intent = new Intent(context, ListServerActivity.class);
-        context.startActivity(intent);
     }
 }

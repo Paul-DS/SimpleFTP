@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.paulds.simpleftp.R;
-import com.paulds.simpleftp.databinding.ActivityListFileBinding;
-import com.paulds.simpleftp.presentation.model.ListFileViewModel;
+import com.paulds.simpleftp.databinding.ActivityMainBinding;
+import com.paulds.simpleftp.presentation.model.MainViewModel;
 
 /**
- * Activity which displays a list of files.
+ * The main activity, which displays 2 explorers
  *
  * @author Paul-DS
  */
-public class ListFileActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Method called at activity creation.
@@ -24,9 +24,8 @@ public class ListFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityListFileBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_list_file);
-        ListFileViewModel viewModel = new ListFileViewModel(this);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        MainViewModel viewModel = new MainViewModel(this);
         binding.setModel(viewModel);
-        binding.listFileRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 }

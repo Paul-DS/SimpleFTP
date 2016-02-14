@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activities.ListFileActivity" />
+        <activity android:name=".presentation.activities.MainActivity" />
         <activity android:name=".presentation.activities.ListServerActivity" />
         <activity android:name=".presentation.activities.EditServerActivity" />
 
