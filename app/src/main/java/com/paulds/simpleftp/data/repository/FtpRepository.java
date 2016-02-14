@@ -35,7 +35,9 @@ public class FtpRepository {
         client.connect(server.getHost(), server.getPort());
         client.login(server.isAnonymous() ? "anonymous" : server.getLogin(), server.getPassword());
 
-        //client.changeDirectory(path);
+        if(path != null && !path.equals("/")) {
+            client.changeDirectory(path);
+        }
 
         FTPFile[] list = client.list();
 
@@ -43,7 +45,7 @@ public class FtpRepository {
 
         if(list != null) {
             for (FTPFile file : list) {
-                results.add(this.ftpFileToEntity(file));
+                results.add(this.ftpFileToEntity(file, path));
             }
         }
 
@@ -69,12 +71,16 @@ public class FtpRepository {
     /**
      * Convert a FTP file to a file entity.
      * @param file The FTP file to convert.
+     * @param currentPath The path where the file has been found.
      * @return The converted file entity.
      */
-    private FileEntity ftpFileToEntity(FTPFile file)
+    private FileEntity ftpFileToEntity(FTPFile file, String currentPath)
     {
         FileEntity entity = new FileEntity();
-        entity.setPath(file.getLink());
+        entity.setPath(currentPath.endsWith("/")
+                ? currentPath + file.getName()
+                : currentPath + "/" + file.getName());
+
         entity.setName(file.getName());
         entity.setSize(file.getSize());
         entity.setIsDirectory(file.getType() == FTPFile.TYPE_DIRECTORY);

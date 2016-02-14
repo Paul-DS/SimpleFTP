@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="model" type="com.paulds.simpleftp.presentation.model.ExplorerViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -13,39 +14,61 @@
         android:fitsSystemWindows="true"
         tools:context="presentation.activities.ListFileActivity">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_file_recycler"
-            android:scrollbars="vertical"
+
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="?attr/actionBarSize"
-            app:items="@{model.files}"
-            app:itemViewBinder="@{model.itemViewBinder}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            android:paddingTop="@dimen/explorer_toolbar_size">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_file_recycler"
+                android:scrollbars="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="#DDDDDD"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:layout_height="match_parent"
+                app:items="@{model.files}"
+                app:itemViewBinder="@{model.itemViewBinder}"
+                android:visibility="@{model.isLoading ? View.GONE : View.VISIBLE}"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{model.getTitle}"
-                    android:layout_gravity="left"
-                    android:id="@+id/toolbar_title"
-                    android:textColor="@android:color/black"/>
+            <ProgressBar style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="@{model.isLoading ? View.VISIBLE : View.GONE}"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
-            </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/explorer_toolbar_size"
+            android:background="#DDDDDD"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:elevation="2dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/transparent"
-                android:visibility="invisible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.title}"
+                android:layout_gravity="left"
+                android:id="@+id/toolbar_title"
+                android:textColor="@android:color/black"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_dns_24dp"
+                android:id="@+id/ibServers"
+                android:onClick="@{model.showServers}"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabPlus"

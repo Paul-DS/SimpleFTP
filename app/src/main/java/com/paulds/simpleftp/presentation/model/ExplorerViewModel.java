@@ -7,18 +7,32 @@ import android.database.Observable;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
 import com.paulds.simpleftp.BR;
 import com.paulds.simpleftp.R;
 import com.paulds.simpleftp.data.entities.FileEntity;
+import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
 import com.paulds.simpleftp.presentation.activities.ListServerActivity;
 import com.paulds.simpleftp.presentation.binders.ItemBinder;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+import it.sauronsoftware.ftp4j.FTPListParseException;
 
 /**
  * Model for displaying an explorer.
@@ -37,6 +51,16 @@ public class ExplorerViewModel extends BaseObservable {
     private String path;
 
     /**
+     * The current server displayed.
+     */
+    private FtpServer server;
+
+    /**
+     * Indicates whether a loading is ongoing.
+     */
+    public ObservableBoolean isLoading;
+
+    /**
      * The list of files displayed.
      */
     @Bindable
@@ -48,6 +72,7 @@ public class ExplorerViewModel extends BaseObservable {
      */
     public ExplorerViewModel(Context context) {
         this.context = context;
+        this.isLoading = new ObservableBoolean(false);
         this.files = new ObservableArrayList<FileViewModel>();
         this.changeDirectory("/");
     }
@@ -63,40 +88,80 @@ public class ExplorerViewModel extends BaseObservable {
 
     @Bindable
     public String getTitle() {
-        return "Local";
+        return server != null ? server.getName() : "Local";
     }
 
     /**
      * Update the current path and refresh the files list.
      * @param path The new path.
      */
-    public void changeDirectory(String path) {
+    public void changeDirectory(final String path) {
         files.clear();
         this.path = path;
 
-        List<FileEntity> newFiles = AndroidApplication.getRepository().getFileRepository().listFiles(path);
+        isLoading.set(true);
 
-        if (!path.equals("/")) {
-            FileViewModel viewModel = new FileViewModel(this);
-            viewModel.setName("...");
-            viewModel.setFilepath(path.substring(0, path.lastIndexOf("/") + 1));
+        final Handler handler = new Handler();
+        final ExplorerViewModel instance = this;
 
-            this.files.add(viewModel);
-        }
+        Thread loadingThread = new Thread() {
+            @Override
+            public void run() {
+                List<FileEntity> newFiles = null;
 
-        if (newFiles != null) {
-            for (FileEntity f : newFiles) {
-                FileViewModel viewModel = new FileViewModel(this);
-                viewModel.setName(f.getName());
-                viewModel.setFilepath(f.getPath());
-
-                if (!f.isDirectory()) {
-                    viewModel.setSize(f.getSize());
+                try {
+                    newFiles = server != null
+                            ? AndroidApplication.getRepository().getFtpRepository().listFiles(server, path)
+                            : AndroidApplication.getRepository().getFileRepository().listFiles(path);
+                } catch (FTPException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (FTPIllegalReplyException e) {
+                    e.printStackTrace();
+                } catch (FTPAbortedException e) {
+                    e.printStackTrace();
+                } catch (FTPDataTransferException e) {
+                    e.printStackTrace();
+                } catch (FTPListParseException e) {
+                    e.printStackTrace();
                 }
 
-                this.files.add(viewModel);
+                final List<FileViewModel> newList = new ArrayList<FileViewModel>();
+
+                if (path != null && !path.equals("/")) {
+                    FileViewModel viewModel = new FileViewModel(instance);
+                    viewModel.setName("..");
+                    viewModel.setFilepath(path.substring(0, path.lastIndexOf("/") + 1));
+
+                    newList.add(viewModel);
+                }
+
+                if (newFiles != null) {
+                    for (FileEntity f : newFiles) {
+                        FileViewModel viewModel = new FileViewModel(instance);
+                        viewModel.setName(f.getName());
+                        viewModel.setFilepath(f.getPath());
+
+                        if (!f.isDirectory()) {
+                            viewModel.setSize(f.getSize());
+                        }
+
+                        newList.add(viewModel);
+                    }
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        files.addAll(newList);
+                        isLoading.set(false);
+                    }
+                });
             }
-        }
+        };
+
+        loadingThread.start();
     }
 
     /**
@@ -137,5 +202,39 @@ public class ExplorerViewModel extends BaseObservable {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * Shows the server list.
+     * @param view The current view.
+     */
+    public void showServers(View view) {
+        PopupMenu popupMenu = new PopupMenu(this.context, view) {
+            @Override
+            public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+                if(item.getItemId() > 0) {
+                    server = AndroidApplication.getRepository().getServerRepository().getServer(item.getItemId());
+                }
+                else {
+                    server = null;
+                }
+
+                notifyPropertyChanged(BR.title);
+                changeDirectory("/");
+                return true;
+            }
+        };
+
+        List<FtpServer> servers = AndroidApplication.getRepository().getServerRepository().getServers();
+
+        popupMenu.getMenu().add(0, 0, 0, "Local");
+
+        for (FtpServer server: servers) {
+            popupMenu.getMenu().add(0, server.getId(), 0, server.getName());
+        }
+
+        //popupMenu.inflate(R.menu.album_overflow_menu);
+
+        popupMenu.show();
     }
 }
