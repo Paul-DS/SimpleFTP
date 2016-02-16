@@ -12,6 +12,7 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.paulds.simpleftp.R;
 import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
 import com.paulds.simpleftp.presentation.activities.ListServerActivity;
@@ -130,6 +131,23 @@ public class EditServerViewModel extends FormViewModel {
         this.isAnonymous.set(server.isAnonymous());
         this.login.set(server.getLogin());
         this.password.set(server.getPassword());
+    }
+
+    /**
+     * Gets the resource for activity title.
+     * @return The resource to display activity title.
+     */
+    @Bindable
+    public int getTitleResource() {
+        return this.id > 0 ? R.string.activity_edit_server_title : R.string.activity_add_server_title;
+    }
+
+    /**
+     * Back to the previous activity.
+     * @param view The current view
+     */
+    public void back(View view) {
+        this.context.finish();
     }
 
     /**

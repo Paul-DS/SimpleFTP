@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">SimpleFTP</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">Simple FTP</string>
+    <string name="activity_list_server_title">Favorites servers</string>
+    <string name="activity_add_server_title">Add new favorite</string>
+    <string name="activity_edit_server_title">Edit favorite</string>
     <string name="dialog_create_folder_message">Enter the folder name:</string>
     <string name="dialog_create_folder_positive_button">Create</string>
     <string name="dialog_create_folder_negative_button">Cancel</string>

@@ -81,22 +81,34 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:id="@+id/view">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:src="@drawable/ic_arrow_back_24dp"
+                    android:id="@+id/AddServer_ibBack"
+                    android:adjustViewBounds="false"
+                    android:onClick="@{model.back}"
+                    android:clickable="true"
+                    android:paddingRight="15dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add new FTP server"
-                    android:layout_gravity="left"
-                    android:id="@+id/toolbar_title" />
+                    android:text="@{model.titleResource}"
+                    android:layout_gravity="start"
+                    android:id="@+id/AddServer_teTitle"
+                    android:textColor="@color/action_bar_text"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"

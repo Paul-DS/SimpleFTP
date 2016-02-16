@@ -93,6 +93,14 @@ public class ListServerViewModel extends BaseObservable {
     }
 
     /**
+     * Back to the previous activity.
+     * @param view The current view
+     */
+    public void back(View view) {
+        this.context.finish();
+    }
+
+    /**
      * Called when a server is selected.
      * @param model The view model corresponding to the selected server.
      */

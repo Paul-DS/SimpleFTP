@@ -14,8 +14,6 @@
         android:fitsSystemWindows="true"
         tools:context="presentation.activities.ListFileActivity">
 
-
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,10 +38,9 @@
         </FrameLayout>
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/explorer_toolbar_size"
-            android:background="#DDDDDD"
+            android:background="@color/toolbar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:elevation="2dp">
 
@@ -52,15 +49,16 @@
                 android:layout_height="wrap_content"
                 android:text="@{model.title}"
                 android:layout_gravity="left"
-                android:id="@+id/toolbar_title"
-                android:textColor="@android:color/black"/>
+                android:id="@+id/Explorer_teTitle"
+                android:textColor="@color/toolbar_text"
+                android:textSize="@dimen/toolbar_title_text_size" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:src="@drawable/ic_dns_24dp"
-                android:id="@+id/ibServers"
+                android:id="@+id/Explorer_ivConnect"
                 android:onClick="@{model.showServers}"
                 android:clickable="true"
                 android:focusable="true"

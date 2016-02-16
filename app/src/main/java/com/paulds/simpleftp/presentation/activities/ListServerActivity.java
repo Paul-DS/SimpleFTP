@@ -42,7 +42,7 @@ public class ListServerActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list_server);
         viewModel = new ListServerViewModel(this);
         binding.setModel(viewModel);
-        binding.listFileRecycler.setLayoutManager(new LinearLayoutManager(this));
+        binding.ListServerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
