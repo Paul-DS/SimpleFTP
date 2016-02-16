@@ -14,17 +14,25 @@
         android:fitsSystemWindows="true"
         tools:context="presentation.activities.ListFileActivity">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:padding="10dp">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/AddServer_etName"
-                android:hint="Name"
-                app:binding="@{model.name}" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/AddServer_etName"
+                    android:hint="@string/activity_edit_server_name"
+                    app:binding="@{model.name}" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -32,62 +40,85 @@
                 android:layout_height="wrap_content"
                 android:weightSum="1">
 
-                <EditText
-                    android:layout_width="wrap_content"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/AddServer_etHost"
-                    android:hint="Hostname"
-                    android:layout_weight="1"
-                    app:binding="@{model.host}" />
+                    android:layout_weight="1">
 
-                <EditText
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/AddServer_etHost"
+                        android:hint="@string/activity_edit_server_hostname"
+                        app:binding="@{model.host}" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/AddServer_etPort"
-                    android:hint="Port"
-                    android:layout_gravity="center_horizontal"
-                    app:binding="@{model.port}" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:id="@+id/AddServer_etPort"
+                        android:hint="@string/activity_edit_server_port"
+                        android:layout_gravity="center_horizontal"
+                        app:binding="@{model.port}" />
+
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Anonymous connexion"
+                android:text="@string/activity_edit_server_is_anonymous"
                 android:id="@+id/AddServer_swAnonymous"
                 android:layout_gravity="center_horizontal"
-                app:binding="@{model.isAnonymous}"/>
+                app:binding="@{model.isAnonymous}"
+                android:paddingTop="15dp" />
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/AddServer_etLogin"
-                android:hint="Login"
-                app:binding="@{model.login}" />
+                android:layout_height="wrap_content">
 
-            <EditText
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/AddServer_etLogin"
+                    android:hint="@string/activity_edit_server_login"
+                    app:binding="@{model.login}" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/AddServer_etPassword"
-                android:hint="Password"
-                app:binding="@{model.password}" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/AddServer_etPassword"
+                    android:hint="@string/activity_edit_server_password"
+                    app:binding="@{model.password}" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:background="?attr/colorPrimary">
 
                 <ImageView
                     android:layout_width="wrap_content"

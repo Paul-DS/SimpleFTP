@@ -41,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_size"
             android:background="@color/toolbar"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
             android:elevation="2dp">
 
             <TextView

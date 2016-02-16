@@ -3,6 +3,7 @@ package com.paulds.simpleftp.presentation.binders;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Pair;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.paulds.simpleftp.presentation.model.FieldViewModel;
+
+import org.w3c.dom.Text;
 
 /**
  * Class used to defined bindings used in forms views.
@@ -51,9 +54,23 @@ public class FormBindings {
             view.setText(newValue);
         }
 
+        TextInputLayout parentLayout = view.getParent() instanceof TextInputLayout
+                ? (TextInputLayout)view.getParent()
+                : null;
+
         String newError = observable.getError();
-        if (view.getError() != newError) {
-            view.setError(newError);
+        String oldError = parentLayout != null
+                ? (String)parentLayout.getError()
+                : (String)view.getError();
+
+        if (oldError != newError) {
+            if(parentLayout != null) {
+                parentLayout.setError(newError);
+            }
+            else {
+                view.setError(newError);
+            }
+
         }
     }
 

@@ -3,6 +3,12 @@
     <string name="activity_list_server_title">Favorites servers</string>
     <string name="activity_add_server_title">Add new favorite</string>
     <string name="activity_edit_server_title">Edit favorite</string>
+    <string name="activity_edit_server_name">Name</string>
+    <string name="activity_edit_server_hostname">Hostname</string>
+    <string name="activity_edit_server_port">Port</string>
+    <string name="activity_edit_server_is_anonymous">Anonymous connection</string>
+    <string name="activity_edit_server_login">Login</string>
+    <string name="activity_edit_server_password">Password</string>
     <string name="dialog_create_folder_message">Enter the folder name:</string>
     <string name="dialog_create_folder_positive_button">Create</string>
     <string name="dialog_create_folder_negative_button">Cancel</string>
