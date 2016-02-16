@@ -132,22 +132,14 @@ public class ExplorerViewModel extends BaseObservable {
                 if (path != null && !path.equals("/")) {
                     FileViewModel viewModel = new FileViewModel(instance);
                     viewModel.setName("..");
-                    viewModel.setFilepath(path.substring(0, path.lastIndexOf("/") + 1));
+                    viewModel.setPath(path.substring(0, path.lastIndexOf("/") + 1));
 
                     newList.add(viewModel);
                 }
 
                 if (newFiles != null) {
                     for (FileEntity f : newFiles) {
-                        FileViewModel viewModel = new FileViewModel(instance);
-                        viewModel.setName(f.getName());
-                        viewModel.setFilepath(f.getPath());
-
-                        if (!f.isDirectory()) {
-                            viewModel.setSize(f.getSize());
-                        }
-
-                        newList.add(viewModel);
+                        newList.add(new FileViewModel(instance, f));
                     }
                 }
 

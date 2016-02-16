@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="com.paulds.simpleftp.presentation.model.FileViewModel" />
         <variable name="file" type="FileViewModel" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:padding="5dp"
         android:clickable="true"
         android:focusable="true"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="@{file.onItemClick}">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@{file.name}"
-            android:id="@+id/filename"
-            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            app:drawable="@{file.icon}"/>
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@{file.size.toString()}"
-            android:id="@+id/filesize" />
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@{file.name}"
+                android:id="@+id/filename"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/list_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{file.displayedSize}"
+                android:visibility="@{file.sizeVisible}"
+                android:id="@+id/filesize"
+                android:textSize="@dimen/list_subtext" />
+        </LinearLayout>
     </LinearLayout>
 </layout>
