@@ -17,7 +17,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/explorer_toolbar_size">
+            android:paddingTop="@dimen/toolbar_size">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_file_recycler"
