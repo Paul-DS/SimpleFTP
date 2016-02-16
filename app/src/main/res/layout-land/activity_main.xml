@@ -63,6 +63,11 @@
                 class="com.paulds.simpleftp.presentation.fragments.ExplorerFragment"
                 tools:layout="@layout/fragment_explorer" />
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"/>
+
             <fragment
                 android:id="@+id/secondExplorer"
                 android:layout_width="match_parent"
