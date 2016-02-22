@@ -111,12 +111,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="FTP Server name"
                         android:layout_gravity="left"
                         android:id="@+id/ConsultServer_tvName"
                         android:textSize="@dimen/abc_text_size_title_material"
                         android:textStyle="bold"
-                        android:textColor="@color/action_bar_text" />
+                        android:textColor="@color/action_bar_text"
+                        android:text="@{model.selectedServer.name}" />
 
                     <ImageView
                         android:layout_width="wrap_content"
