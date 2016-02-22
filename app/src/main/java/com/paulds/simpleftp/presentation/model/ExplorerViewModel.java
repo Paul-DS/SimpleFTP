@@ -21,6 +21,7 @@ import com.paulds.simpleftp.R;
 import com.paulds.simpleftp.data.entities.FileEntity;
 import com.paulds.simpleftp.data.entities.FtpServer;
 import com.paulds.simpleftp.presentation.AndroidApplication;
+import com.paulds.simpleftp.presentation.activities.EditServerActivity;
 import com.paulds.simpleftp.presentation.activities.ListServerActivity;
 import com.paulds.simpleftp.presentation.binders.ItemBinder;
 
@@ -40,6 +41,8 @@ import it.sauronsoftware.ftp4j.FTPListParseException;
  * @author Paul-DS
  */
 public class ExplorerViewModel extends BaseObservable {
+    private final static int KEY_ADD_NEW_FAVORITE = -1;
+
     /**
      * The activity context.
      */
@@ -207,6 +210,10 @@ public class ExplorerViewModel extends BaseObservable {
                 if(item.getItemId() > 0) {
                     server = AndroidApplication.getRepository().getServerRepository().getServer(item.getItemId());
                 }
+                else if(item.getItemId() == KEY_ADD_NEW_FAVORITE) {
+                    Intent intent = new Intent(context, EditServerActivity.class);
+                    context.startActivity(intent);
+                }
                 else {
                     server = null;
                 }
@@ -225,7 +232,7 @@ public class ExplorerViewModel extends BaseObservable {
             popupMenu.getMenu().add(0, server.getId(), 0, server.getName());
         }
 
-        //popupMenu.inflate(R.menu.album_overflow_menu);
+        popupMenu.getMenu().add(0, KEY_ADD_NEW_FAVORITE, 0, "Add new favorite...");
 
         popupMenu.show();
     }
