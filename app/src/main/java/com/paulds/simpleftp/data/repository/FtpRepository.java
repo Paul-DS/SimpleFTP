@@ -50,7 +50,9 @@ public class FtpRepository {
 
         if(list != null) {
             for (FTPFile file : list) {
-                results.add(this.ftpFileToEntity(file, path));
+                if(!file.getName().equals("..")) {
+                    results.add(this.ftpFileToEntity(file, path));
+                }
             }
         }
 
