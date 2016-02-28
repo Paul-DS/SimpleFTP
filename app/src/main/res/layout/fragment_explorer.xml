@@ -19,15 +19,23 @@
             android:layout_height="match_parent"
             android:paddingTop="@dimen/toolbar_size">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_file_recycler"
-                android:scrollbars="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:items="@{model.files}"
-                app:itemViewBinder="@{model.itemViewBinder}"
-                android:visibility="@{model.isLoading ? View.GONE : View.VISIBLE}"
-                />
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:onRefresh="@{model.refresh}"
+                app:isRefreshing="@{model.isRefreshing}">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_file_recycler"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:items="@{model.files}"
+                    app:itemViewBinder="@{model.itemViewBinder}"
+                    android:visibility="@{model.isLoading ? View.GONE : View.VISIBLE}"
+                    />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <ProgressBar style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="wrap_content"
@@ -35,6 +43,7 @@
                 android:indeterminate="true"
                 android:visibility="@{model.isLoading ? View.VISIBLE : View.GONE}"
                 android:layout_gravity="center" />
+
         </FrameLayout>
 
         <android.support.v7.widget.Toolbar

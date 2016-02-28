@@ -65,6 +65,11 @@ public class ExplorerViewModel extends BaseObservable {
     public ObservableBoolean isLoading;
 
     /**
+     * Indicates whether a refresh is ongoing.
+     */
+    public ObservableBoolean isRefreshing;
+
+    /**
      * The list of files displayed.
      */
     @Bindable
@@ -87,6 +92,7 @@ public class ExplorerViewModel extends BaseObservable {
     public ExplorerViewModel(Context context) {
         this.context = context;
         this.isLoading = new ObservableBoolean(false);
+        this.isRefreshing = new ObservableBoolean(false);
         this.files = new ObservableArrayList<FileViewModel>();
         this.isSelectionMode = new ObservableBoolean(false);
         this.numberSelectedItems = new ObservableInt(0);
@@ -112,64 +118,15 @@ public class ExplorerViewModel extends BaseObservable {
      * @param path The new path.
      */
     public void changeDirectory(final String path) {
-        files.clear();
         this.path = path;
-
         isLoading.set(true);
+        refreshFiles();
+    }
 
-        final Handler handler = new Handler();
-        final ExplorerViewModel instance = this;
 
-        Thread loadingThread = new Thread() {
-            @Override
-            public void run() {
-                List<FileEntity> newFiles = null;
-
-                try {
-                    newFiles = server != null
-                            ? AndroidApplication.getRepository().getFtpRepository().listFiles(server, path)
-                            : AndroidApplication.getRepository().getFileRepository().listFiles(path);
-                } catch (FTPException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (FTPIllegalReplyException e) {
-                    e.printStackTrace();
-                } catch (FTPAbortedException e) {
-                    e.printStackTrace();
-                } catch (FTPDataTransferException e) {
-                    e.printStackTrace();
-                } catch (FTPListParseException e) {
-                    e.printStackTrace();
-                }
-
-                final List<FileViewModel> newList = new ArrayList<FileViewModel>();
-
-                if (path != null && !path.equals("/")) {
-                    FileViewModel viewModel = new FileViewModel(instance);
-                    viewModel.setName("..");
-                    viewModel.setPath(path.substring(0, path.lastIndexOf("/") + 1));
-
-                    newList.add(viewModel);
-                }
-
-                if (newFiles != null) {
-                    for (FileEntity f : newFiles) {
-                        newList.add(new FileViewModel(instance, f));
-                    }
-                }
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        files.addAll(newList);
-                        isLoading.set(false);
-                    }
-                });
-            }
-        };
-
-        loadingThread.start();
+    public void refresh() {
+        this.isRefreshing.set(true);
+        this.refreshFiles();
     }
 
     /**
@@ -346,5 +303,63 @@ public class ExplorerViewModel extends BaseObservable {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void refreshFiles() {
+        final Handler handler = new Handler();
+        final ExplorerViewModel instance = this;
+
+        Thread loadingThread = new Thread() {
+            @Override
+            public void run() {
+                List<FileEntity> newFiles = null;
+
+                try {
+                    newFiles = server != null
+                            ? AndroidApplication.getRepository().getFtpRepository().listFiles(server, path)
+                            : AndroidApplication.getRepository().getFileRepository().listFiles(path);
+                } catch (FTPException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (FTPIllegalReplyException e) {
+                    e.printStackTrace();
+                } catch (FTPAbortedException e) {
+                    e.printStackTrace();
+                } catch (FTPDataTransferException e) {
+                    e.printStackTrace();
+                } catch (FTPListParseException e) {
+                    e.printStackTrace();
+                }
+
+                final List<FileViewModel> newList = new ArrayList<FileViewModel>();
+
+                if (path != null && !path.equals("/")) {
+                    FileViewModel viewModel = new FileViewModel(instance);
+                    viewModel.setName("..");
+                    viewModel.setPath(path.substring(0, path.lastIndexOf("/") + 1));
+
+                    newList.add(viewModel);
+                }
+
+                if (newFiles != null) {
+                    for (FileEntity f : newFiles) {
+                        newList.add(new FileViewModel(instance, f));
+                    }
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        files.clear();
+                        files.addAll(newList);
+                        isLoading.set(false);
+                        isRefreshing.set(false);
+                    }
+                });
+            }
+        };
+
+        loadingThread.start();
     }
 }
