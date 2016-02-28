@@ -8,6 +8,7 @@ import com.paulds.simpleftp.data.entities.FtpServer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -55,6 +56,8 @@ public class FtpRepository {
                 }
             }
         }
+
+        Collections.sort(results);
 
         return results;
     }

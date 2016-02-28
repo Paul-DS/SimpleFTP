@@ -6,6 +6,8 @@ import com.paulds.simpleftp.data.entities.FileEntity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,6 +36,8 @@ public class FileRepository {
                 results.add(this.fileToEntity(file));
             }
         }
+
+        Collections.sort(results);
 
         return results;
     }

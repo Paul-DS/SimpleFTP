@@ -5,7 +5,7 @@ package com.paulds.simpleftp.data.entities;
  *
  * @author Paul-DS
  */
-public class FileEntity {
+public class FileEntity implements Comparable<FileEntity> {
 
     /**
      * The file name.
@@ -89,5 +89,21 @@ public class FileEntity {
      */
     public void setIsDirectory(boolean isDirectory) {
         this.isDirectory = isDirectory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(FileEntity file) {
+        if(this.isDirectory() && !file.isDirectory()) {
+            return -1;
+        }
+        else if(!this.isDirectory() && file.isDirectory()) {
+            return 1;
+        }
+        else {
+            return this.getName().compareToIgnoreCase(file.getName());
+        }
     }
 }
