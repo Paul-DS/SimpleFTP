@@ -10,4 +10,5 @@
     <color name="selection_toolbar">#62890F</color>
     <color name="selected_item">#EBF2DC</color>
     <color name="unselected_item">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
 </resources>
