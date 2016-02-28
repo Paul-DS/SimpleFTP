@@ -8,6 +8,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.MenuBuilder;
@@ -70,6 +71,16 @@ public class ExplorerViewModel extends BaseObservable {
     public ObservableArrayList<FileViewModel> files;
 
     /**
+     * Indicates whether the view is in selection mode.
+     */
+    public ObservableBoolean isSelectionMode;
+
+    /**
+     * The number of selected items
+     */
+    public ObservableInt numberSelectedItems;
+
+    /**
      * Default constructor.
      * @param context The context of the current activity.
      */
@@ -77,6 +88,8 @@ public class ExplorerViewModel extends BaseObservable {
         this.context = context;
         this.isLoading = new ObservableBoolean(false);
         this.files = new ObservableArrayList<FileViewModel>();
+        this.isSelectionMode = new ObservableBoolean(false);
+        this.numberSelectedItems = new ObservableInt(0);
         this.changeDirectory("/");
     }
 
@@ -235,5 +248,32 @@ public class ExplorerViewModel extends BaseObservable {
         popupMenu.getMenu().add(0, KEY_ADD_NEW_FAVORITE, 0, "Add new favorite...");
 
         popupMenu.show();
+    }
+
+    /**
+     * Refresh the number of selected items.
+     */
+    public void refreshSelectedItems() {
+        int total = 0;
+
+        for (FileViewModel file: files) {
+            if(file.isSelected.get()) {
+                total++;
+            }
+        }
+
+        this.numberSelectedItems.set(total);
+    }
+
+    /**
+     * Clear the selection.
+     * @param view The current view.
+     */
+    public void clearSelection(View view) {
+        for (FileViewModel file: files) {
+            file.isSelected.set(false);
+        }
+
+        this.isSelectionMode.set(false);
     }
 }

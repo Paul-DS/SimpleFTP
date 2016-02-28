@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="com.paulds.simpleftp.presentation.model.FileViewModel" />
+        <import type="com.paulds.simpleftp.R" />
+        <import type="android.view.View"/>
         <variable name="file" type="FileViewModel" />
     </data>
 
@@ -13,8 +15,9 @@
         android:padding="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:onClick="@{file.onItemClick}">
+        app:backgroundResource="@{file.isSelected ? R.color.selected_item : R.color.unselected_item}"
+        android:onClick="@{file.onItemClick}"
+        android:onLongClick="@{file.onItemLongClick}">
 
         <ImageView
             android:layout_width="48dp"

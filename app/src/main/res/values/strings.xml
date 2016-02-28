@@ -9,6 +9,8 @@
     <string name="activity_edit_server_is_anonymous">Anonymous connection</string>
     <string name="activity_edit_server_login">Login</string>
     <string name="activity_edit_server_password">Password</string>
+    <string name="activity_list_files_selected_item">element selected</string>
+    <string name="activity_list_files_selected_items">elements selected</string>
     <string name="dialog_create_folder_message">Enter the folder name:</string>
     <string name="dialog_create_folder_positive_button">Create</string>
     <string name="dialog_create_folder_negative_button">Cancel</string>

@@ -6,4 +6,8 @@
     <color name="action_bar_text">#FFFFFF</color>
     <color name="toolbar_text">#000000</color>
     <color name="toolbar">#DDDDDD</color>
+    <color name="selection_toolbar_text">#FFFFFF</color>
+    <color name="selection_toolbar">#62890F</color>
+    <color name="selected_item">#EBF2DC</color>
+    <color name="unselected_item">#FFFFFF</color>
 </resources>

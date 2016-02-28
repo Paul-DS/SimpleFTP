@@ -1,6 +1,7 @@
 package com.paulds.simpleftp.presentation.model;
 
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
 import android.view.View;
 
 import com.paulds.simpleftp.R;
@@ -43,11 +44,17 @@ public class FileViewModel {
     private int icon;
 
     /**
+     * Indicates whether the file item is selected.
+     */
+    public ObservableBoolean isSelected;
+
+    /**
      * Default constructor.
      * @param mainViewModel The parent view model.
      */
     public FileViewModel(ExplorerViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
+        this.isSelected = new ObservableBoolean(false);
     }
 
     /**
@@ -175,10 +182,38 @@ public class FileViewModel {
     }
 
     /**
+     * Gets the main model.
+     * @return The main model.
+     */
+    public ExplorerViewModel getMainModel() {
+        return this.mainViewModel;
+    }
+
+    /**
      * Called when the file item is clicked.
      * @param view The current view.
      */
     public void onItemClick(View view) {
-        this.mainViewModel.selectFile(this);
+        if(this.mainViewModel.isSelectionMode.get()) {
+            this.isSelected.set(!this.isSelected.get());
+            this.mainViewModel.refreshSelectedItems();
+        }
+        else {
+            this.mainViewModel.selectFile(this);
+        }
+    }
+
+    /**
+     * Called when the file item is long clicked.
+     * @param view The current view.
+     */
+    public boolean onItemLongClick(View view) {
+        if(!this.mainViewModel.isSelectionMode.get()) {
+            this.mainViewModel.isSelectionMode.set(true);
+            this.isSelected.set(true);
+            this.mainViewModel.refreshSelectedItems();
+        }
+
+        return true;
     }
 }
