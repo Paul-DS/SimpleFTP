@@ -276,4 +276,75 @@ public class ExplorerViewModel extends BaseObservable {
 
         this.isSelectionMode.set(false);
     }
+
+    /**
+     * Delete the selection.
+     * @param view The current view.
+     */
+    public void deleteSelection(View view) {
+        final List<FileEntity> filesToRemove = new ArrayList<FileEntity>();
+
+        for (FileViewModel file: files) {
+            if(file.isSelected.get()) {
+                filesToRemove.add(file.toEntity());
+            }
+        }
+
+        this.clearSelection(view);
+
+        final Handler handler = new Handler();
+        final ExplorerViewModel instance = this;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+
+        builder.setMessage(String.format(this.context.getString(R.string.dialog_delete_files_message), filesToRemove.size()));
+
+        builder.setPositiveButton(R.string.dialog_delete_files_positive_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isLoading.set(true);
+
+                Thread loadingThread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            if(server != null) {
+                                AndroidApplication.getRepository().getFtpRepository().deleteFiles(server, filesToRemove);
+                            }
+                            else {
+                                AndroidApplication.getRepository().getFileRepository().deleteFiles(filesToRemove);
+                            }
+                        } catch (FTPException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (FTPIllegalReplyException e) {
+                            e.printStackTrace();
+                        }
+
+                        final List<FileViewModel> newList = new ArrayList<FileViewModel>();
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                changeDirectory(path);
+                            }
+                        });
+                    }
+                };
+
+                loadingThread.start();
+            }
+        });
+
+        builder.setNegativeButton(R.string.dialog_delete_files_negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

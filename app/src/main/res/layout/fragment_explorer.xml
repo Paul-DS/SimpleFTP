@@ -94,6 +94,19 @@
                 android:textColor="@color/selection_toolbar_text"
                 android:textSize="@dimen/toolbar_title_text_size" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_delete_24dp"
+                android:onClick="@{model.deleteSelection}"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="@{model.numberSelectedItems > 0 ? View.VISIBLE : View.GONE}"/>
+
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.FloatingActionButton

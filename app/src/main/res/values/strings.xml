@@ -17,4 +17,7 @@
     <string name="dialog_delete_server_message">The server will be deleted.</string>
     <string name="dialog_delete_server_positive_button">Delete</string>
     <string name="dialog_delete_server_negative_button">Cancel</string>
+    <string name="dialog_delete_files_message">The %d files will be deleted.</string>
+    <string name="dialog_delete_files_positive_button">Delete</string>
+    <string name="dialog_delete_files_negative_button">Cancel</string>
 </resources>

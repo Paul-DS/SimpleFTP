@@ -55,6 +55,20 @@ public class FileRepository {
     }
 
     /**
+     * Delete a list of files and directories.
+     * @param elements The specified list.
+     */
+    public void deleteFiles(List<FileEntity> elements) {
+        for (FileEntity element: elements) {
+            File file = new File(element.getPath());
+
+            if(file.exists()) {
+                file.delete();
+            }
+        }
+    }
+
+    /**
      * Indicates whether the storage is writable.
      * @return A value indicating whether the storage is writable.
      */

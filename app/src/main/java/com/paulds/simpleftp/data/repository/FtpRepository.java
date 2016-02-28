@@ -8,6 +8,9 @@ import com.paulds.simpleftp.data.entities.FtpServer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -24,6 +27,10 @@ import it.sauronsoftware.ftp4j.FTPListParseException;
  * @author Paul-DS
  */
 public class FtpRepository {
+    /**
+     * File containing open FTP connections.
+     */
+    private Hashtable<Integer, FTPClient> openConnections = new Hashtable<Integer, FTPClient>();
 
     /**
      * Lists the files present at the specified path.
@@ -31,9 +38,7 @@ public class FtpRepository {
      * @return The list of files.
      */
     public List<FileEntity> listFiles(FtpServer server, String path) throws FTPException, IOException, FTPIllegalReplyException, FTPAbortedException, FTPDataTransferException, FTPListParseException {
-        FTPClient client = new FTPClient();
-        client.connect(server.getHost(), server.getPort());
-        client.login(server.isAnonymous() ? "anonymous" : server.getLogin(), server.getPassword());
+        FTPClient client = this.getConnection(server);
 
         if(path != null && !path.equals("/")) {
             client.changeDirectory(path);
@@ -66,6 +71,49 @@ public class FtpRepository {
         if(!folder.exists()) {
             folder.mkdir();
         }
+    }
+
+    /**
+     * Delete a list of files and directories.
+     * @param server The FTP server.
+     * @param elements The specified list.
+     */
+    public void deleteFiles(FtpServer server, List<FileEntity> elements) throws FTPException, IOException, FTPIllegalReplyException {
+        FTPClient client = this.getConnection(server);
+
+        for (FileEntity element: elements) {
+            if(element.isDirectory()) {
+                client.deleteDirectory(element.getPath());
+            }
+            else {
+                client.deleteFile(element.getPath());
+            }
+        }
+    }
+
+    /**
+     * Gets a FTP connection for a given server.
+     * @param server The server to connect.
+     * @return The FTP connection.
+     */
+    private FTPClient getConnection(FtpServer server) throws FTPException, IOException, FTPIllegalReplyException {
+        FTPClient client = openConnections.get(server.getId());
+
+        if(client == null)
+        {
+            client = new FTPClient();
+            openConnections.put(server.getId(), client);
+        }
+
+        if(!client.isConnected()) {
+            client.connect(server.getHost(), server.getPort());
+        }
+
+        if(!client.isAuthenticated()) {
+            client.login(server.isAnonymous() ? "anonymous" : server.getLogin(), server.getPassword());
+        }
+
+        return client;
     }
 
     /**

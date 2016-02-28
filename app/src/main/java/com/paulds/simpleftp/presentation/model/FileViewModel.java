@@ -190,6 +190,24 @@ public class FileViewModel {
     }
 
     /**
+     * Convert the file view model into a file entity.
+     * @return The converted file entity.
+     */
+    public FileEntity toEntity() {
+        FileEntity result = new FileEntity();
+
+        result.setName(this.name);
+        result.setPath(this.path);
+        result.setIsDirectory(this.isDirectory);
+
+        if(!this.isDirectory) {
+            result.setSize(this.size);
+        }
+
+        return result;
+    }
+
+    /**
      * Called when the file item is clicked.
      * @param view The current view.
      */
